@@ -14,9 +14,9 @@ $wave:
 
 $base: s("mc202_bd!4").gain(0.6)
 
-$piano: note("<[d6 a5 bb5 g5]*2!3 [g5 a5 bb5 d6]*2!3>/1").sound("fmpiano").legato(1.7).room(.9).gain(slider(0.538))
+$piano: note("<[d6 a5 bb5 g5]*2!3 [g5 a5 bb5 d6]*2!3>/6").sound("fmpiano").legato(1.7).room(.9).gain(slider(1))
 
-$piano2: note("[a3 bb3]!2 [d3 g3]!2 [d3*2? g3*2?]!2?").sound("gm_lead_1_square").room(.7).gain(slider(0.486)).lpf(slider( 4335.05, 50, 8000))
+$piano2: note("[a3 bb3]!2 [d3 g3]!2 [d3*2? g3*2?]!2?").sound("gm_lead_1_square").room(.7).gain(slider(0)).lpf(slider( 50, 50, 8000))
 
 $flauta_nota: note("d5").s("gm_pan_flute").room(.4).gain(0.5)
 
