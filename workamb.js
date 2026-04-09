@@ -1,0 +1,26 @@
+setcpm(30/4)
+samples('https://samples.grbt.com.au/strudel.json')
+
+$teste: s("wind").n("<A1 C#1>").speed(0.28).room(.9).gain(2.85)
+
+$teste: chord("<[C2,Eb2,G3]@1 [F#2,A1,C#2]@1 [C2,Eb3,G1]@1 [F#1,A2,C#3]@1>").sound("hbtpiano").room(0.98).legato(2).gain(0.06).att(slider(0.1,0,0.1)).lpf(slider(2631.5, 500, 4000)).room(1).dfb(slider(0.345,0,1))
+
+$: n("<3 -2, 0 -6, -2 -1, 4 2>, [2 4 8 2]/3 <[2,0,-2]/2.5 [5,7 -4]>")
+.scale("<C:minor F#:minor>/2")
+.sound("sh5lostradiofx:2")
+.speed("-2 -1@2 1!8")
+.delay(0.2)
+.fm(1)
+.gain(0.08)
+.room(.9)
+.fmh(1)
+.attack("0.1 0.4? 0.6 0.8?")
+.postgain(2.5)
+.distort(slider(0.586,0,1))
+._scope()
+
+$bass: n("<A1 F#1>").s("z_sine").loop(1).speed(0.1).room(.9).gain(1.4).distort(slider(0.586,0,1))
+
+$drone: n("<F#1 C1>").s("liddrone").gain(0.11).lpf(slider(4000, 500, 4000)).room(.9)
+
+$sino: s("tubularbells").room(.9).gain("<2.0 3.0 4.0 5.0>").lpf(300)
