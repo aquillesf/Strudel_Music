@@ -1,4 +1,4 @@
-setcpm(150/4)
+setcpm(160/4)
 samples('https://samples.grbt.com.au/strudel.json')
 samples('https://samiiautumn.github.io/samples/strudel.json')
 samples('github:tidalcycles/dirt-samples')
@@ -26,23 +26,27 @@ let isqintro = s("rolandtr626_sh").struct("~ ~ ~ x").gain(0.1).room(0.7).pan(1.3
 
 let melodia = intro
 
+let bum = s("grave_8").struct("<[[x x x x]]!16  [[x x x x*2]]!16>").gain(0.7)
+
 let oi = sound("oi")
-  .struct("[x x x x]")
+  .struct("<[[x x x x]]!16 [[x x x x*2]]16>")
   .gain("<0.4 0.3 0.2 0.3>").room(0.35)
 
-let base_funk1 = sound("<[[sergemodular_bd - - mpc1000_perc] [- -  mpc1000_perc -] [- - - -] [mpc1000_perc - - -]]!8 [[sergemodular_bd - -  mpc1000_perc] [- -  mpc1000_perc -] [- - sergemodular_bd -] [- tr505_perc - -]]!8>").gain(0.9)
+let base_funk1 = sound("<[[grave_2 - - perc_13] [- - perc_13 -] [- - - -] [ perc_13 - - -]]!8 [[sergemodular_bd - - perc_13] [- - perc_13 -] [- - perc_11 -] [perc_13 - - -]]!8>").gain(0.9)
 
 let funk_variação = sound("<[[sergemodular_bd - - -] [sergemodular_bd - mpc1000_perc -] [- - - mpc1000_perc] [- - - tr505_perc]]!8    [[- - mpc1000_perc -] [- sergemodular_bd - -] [sergemodular_bd - - mpc1000_perc] [- tr505_perc sergemodular_bd tr505_perc]]!8>").gain(1.0)
 
-let base_funk2 = sound("<[[mc202_bd - - mc202_bd] [- -  mc202_bd -] [- - mc202_bd -] [- - - -]]!8 [[- - - mc202_bd] [- -  mc202_bd -] [- - - -] [- - - mc202_bd*2]]!8>").gain(0.9)
+let base_funk2 = sound("<[[- - - mc202_bd] [- -  mc202_bd -] [- - mc202_bd -] [- - - -]]!8 [[- - - mc202_bd] [- -  mc202_bd -] [- - - -] [- - - mc202_bd*2]]!8>").gain(0.9)
 
 let hh = s("<[[hh27 hh27 hh27 hh27]]!8*2 [[hh27*2 - hh27 -]]!8*2>").gain(0.9)
 
-let chocalho = s("rolandmt32_tb").struct("<[x x x x*2] !8 [x [x [x x]]] !8 >").room(.9).gain("0.3")
+let chocalho = s("rolandmt32_tb").struct("<[x x x x*2] !8 [x [x [x x]]] !8 >").room(.9).gain("0.2")
 
 let snare_main = s("sp12_sd:3").struct("~ x ~ x").gain(0.2).room(0.25)
 
-let ghost = s("jd990_sd:2").struct("~ ~ [~ x] ~ ~ x ~ [~ ~] ~ ~ x ~ ~ [x ~] ~").gain(perlin.range(0.08, 0.22)).pan(perlin.range(0.35, 0.65)).speed(perlin.range(0.9, 1.1))
+let atividade = s("voz8").gain(0.12).room(.9)
+
+let ghost = s("jd990_sd").struct("~ ~ [~ x] ~ ~ x ~ [~ ~] ~ ~ ~ x ~ [x ~] ~").gain(perlin.range(0.08, 0.22)).pan(perlin.range(0.35, 0.65))
 
 let fx_metal = s("tg33_misc:<0 3 7>").struct("~ ~ ~ ~ ~ ~ ~ x").gain(0.12).room(1).speed(perlin.range(0.5, 2)).delay("0.8").delayfeedback(0.7).pan(rand.range(0, 1))
 
@@ -65,6 +69,19 @@ let tabla_layer = stack(
   s("mridangam_thom:<0 3>").struct("~ ~ ~ x ~ ~ x ~").gain(0.45).room(0.8).pan(0.5)
 ).lpf(2500).sometimes(x => x.speed(0.85))
 
+let drone = s("grave_4")
+  .note("<G1>")
+  .gain(0.18)
+  .loop(1)
+  .loopEnd(1)
+  .room(0.95).size(0.8)
+  .lpf(sine.range(80, 320))
+  .hpf(20)
+  .delay("0.6").delayfeedback(0.92)
+  .pan(0.5)
+  .slow(8)
+let colher = s("bossdr550_cb ").struct("x - - x").room(.5).gain("0.09") 
+let wow = s("voz1").gain(0.2).room(0.25)
 
 let perc = arrange(
   [1, stack(soundintro)],
@@ -79,8 +96,59 @@ let perc = arrange(
 )
 
 let song = arrange(
-  [85, stack(perc, intro, chocalho, base_funk1, base_funk2, hh, oi, soundintro, tabla_layer, snare_main, sub_kick, isqintro, fx_metal)],
-  [15, stack(perc)],
-)
 
+  [8, drone],
+
+  [12, stack(intro, drone)],
+  
+  [12, stack(intro, drone, perc, base_funk2.gain(0.1))],
+
+  [12, stack(intro, drone, perc, base_funk2.gain(0.2))],
+
+  [12, stack(intro, perc, base_funk2.gain(0.3))],
+
+  [1, stack()], 
+  
+  [1, stack(atividade)],
+
+  [1, stack(bum.gain(0.3))],
+
+  [1, stack(wow,
+    base_funk1, base_funk2,
+    bum, hh, snare_main, chocalho,
+    tabla_layer,
+    drone.gain(0.06)
+  )],
+  
+  [14, stack(
+    melodia,
+    base_funk1, base_funk2,
+    bum, hh, snare_main, chocalho,
+    tabla_layer,
+    drone.gain(0.06)
+  )],
+
+  [16, stack(
+    base_funk1, base_funk2,
+    bum, hh, oi, snare_main, chocalho,
+    tabla_layer, sub_kick, colher,
+    drone.gain(0.05)
+  )],
+
+  [16, stack(
+    base_funk1, base_funk2,
+    bum, hh, oi, snare_main, chocalho,
+    tabla_layer, sub_kick, ghost, colher,
+    drone.gain(0.05)
+  )],
+
+  [80, stack(
+    base_funk1, base_funk2,
+    bum, hh, oi, snare_main, chocalho,
+    tabla_layer, sub_kick, sh09_layer,
+    ghost, fx_metal,
+    drone.gain(0.04)
+  )],
+
+)
 song
